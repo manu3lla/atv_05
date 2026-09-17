@@ -4,9 +4,13 @@ from transferencia import transferir
 
 
 @pytest.fixture
-def carteiras():
-    origem = CarteiraDigital(1000)
-    destino = CarteiraDigital(0)
+def carteiras(tmp_path):
+    # log_path aponta para um diretorio temporario do pytest, evitando que
+    # os depositos feitos durante a transferencia sujem o carteira.log real
+    log_path = str(tmp_path / "carteira.log")
+
+    origem = CarteiraDigital(1000, log_path=log_path)
+    destino = CarteiraDigital(0, log_path=log_path)
 
     return origem, destino
 
